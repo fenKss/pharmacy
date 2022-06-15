@@ -82,6 +82,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'twig/twig' => array(
+            'pretty_version' => 'v3.4.1',
+            'version' => '3.4.1.0',
+            'reference' => 'e939eae92386b69b49cfa4599dd9bead6bf4a342',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twig/twig',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.4.1',
             'version' => '5.4.1.0',

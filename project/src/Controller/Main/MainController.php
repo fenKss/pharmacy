@@ -30,6 +30,8 @@ class MainController extends AbstractController
         $a = $config->get('test');
         $diseases = $database->fetchObjects("SELECT * FROM disease", Disease::class);
 
-        return $this->json($diseases);
+        return $this->render('base.html.twig', [
+            'diseases' => $diseases
+        ]);
     }
 }
