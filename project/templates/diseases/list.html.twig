@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <div>
+    <div class="container">
         <div>
             Перечень лекарственных средств и медицинских изделий для бесплатного и (или) льготного амбулаторного
             обеспечения отдельных категорий граждан Республики Казахстан с определенными заболеваниями (состояниями)
@@ -33,16 +33,15 @@
             </tr>
             {% for key, disease in diseases %}
                 {% set rowspan = disease.drugs|length %}
-                {#                {{ dump(disease) }} #}
                 <tr>
-                    <td  rowspan="{{ rowspan }}">{{ key }}</td>
-                    <td  colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.codeMkb10 }}</td>
-                    <td  colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.name }}</td>
-                    <td  colspan="3" rowspan="{{ rowspan }}">{{ disease.population_type.name }}</td>
-                    <td  colspan="3" rowspan="{{ rowspan }}">{{ disease.entity.testimony }}</td>
+                    <td rowspan="{{ rowspan }}">{{ key }}</td>
+                    <td colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.codeMkb10 }}</td>
+                    <td colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.name }}</td>
+                    <td colspan="3" rowspan="{{ rowspan }}">{{ disease.population_type.name }}</td>
+                    <td colspan="3" rowspan="{{ rowspan }}">{{ disease.entity.testimony }}</td>
                     {% set drugFirst = disease.drugs|first %}
-                    <td colspan="3" >{{ drugFirst.name }}</td>
-                    <td colspan="3" >{{ drugFirst.codeATX }}</td>
+                    <td colspan="3">{{ drugFirst.name }}</td>
+                    <td colspan="3">{{ drugFirst.codeATX }}</td>
                 </tr>
                 {% for key, drug in disease.drugs %}
                     {% if drug.id != drugFirst.id %}
