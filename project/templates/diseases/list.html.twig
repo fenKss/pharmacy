@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div>
+        <div>
+            Перечень лекарственных средств и медицинских изделий для бесплатного и (или) льготного амбулаторного
+            обеспечения отдельных категорий граждан Республики Казахстан с определенными заболеваниями (состояниями)
+        </div>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td><p>
+                        №</p>
+                </td>
+                <td colspan="2"><p>
+                        Код МКБ-10</p>
+                </td>
+                <td colspan="2"><p>
+                        Наименование заболевания (состояния)</p>
+                </td>
+                <td colspan="3"><p>
+                        Категория граждан</p>
+                </td>
+                <td colspan="3"><p>
+                        Показания (степень, стадия, тяжесть течения) для назначения лекарственных средств</p>
+                </td>
+                <td colspan="3"><p>
+                        Наименование лекарственных средств (лекарственная форма) или медицинских изделий или
+                        специализированных лечебных продуктов</p>
+                </td>
+                <td colspan="3"><p>
+                        Код анатомо-терапевтическо-химической (АТХ) классификации</p>
+                </td>
+            </tr>
+            {% for key, disease in diseases %}
+                {% set rowspan = disease.drugs|length %}
+                {#                {{ dump(disease) }} #}
+                <tr>
+                    <td  rowspan="{{ rowspan }}">{{ key }}</td>
+                    <td  colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.codeMkb10 }}</td>
+                    <td  colspan="2" rowspan="{{ rowspan }}">{{ disease.entity.name }}</td>
+                    <td  colspan="3" rowspan="{{ rowspan }}">{{ disease.population_type.name }}</td>
+                    <td  colspan="3" rowspan="{{ rowspan }}">{{ disease.entity.testimony }}</td>
+                    {% set drugFirst = disease.drugs|first %}
+                    <td colspan="3" >{{ drugFirst.name }}</td>
+                    <td colspan="3" >{{ drugFirst.codeATX }}</td>
+                </tr>
+                {% for key, drug in disease.drugs %}
+                    {% if drug.id != drugFirst.id %}
+                        <tr>
+                            <td colspan="3">{{ drug.name }}</td>
+                            <td colspan="3">{{ drug.codeATX }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

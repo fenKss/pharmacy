@@ -33,8 +33,7 @@ class DiseaseController extends AbstractController
             $number_of_page,
         ] = $paginationService->getObjects(
             $diseasesRepository,
-            $page,
-            2
+            $page
         );
         $drugs            = $drugRepository->fetchAllHash();
         $populationsTypes = $populationTypeRepository->fetchAllHash();
@@ -47,17 +46,20 @@ class DiseaseController extends AbstractController
             $diseasesA[$disease->getId()] = [
                 'entity' => $disease,
                 'drugs' => [],
-                "population_type" => $populationsTypes[$disease->getPopulationTypeId()]
+                "population_type" => $populationsTypes[$disease->getPopulationTypeId(
+                )],
             ];
         }
         foreach ($drugsRelations as $drugsRelation) {
-            $drug_id                                 = $drugsRelation['drug_id'];
-            $disease_id                              = $drugsRelation['disease_id'];
+            $drug_id                                   = $drugsRelation['drug_id'];
+            $disease_id                                = $drugsRelation['disease_id'];
             $diseasesA[$disease_id]['drugs'][$drug_id] = $drugs[$drug_id];
         }
-        return $this->render('shop.html.twig', [
-            'diseases' => $diseases,
+        return $this->render('diseases/list.html.twig', [
+            'diseases' => $diseasesA,
             "page_numbers" => $number_of_page,
+            "drugs" => $drugs,
+            "population_types" => $populationsTypes,
         ]);
     }
 }
