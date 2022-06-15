@@ -45,5 +45,4 @@ class PopulationType
         return $this;
     }
 
-
 }

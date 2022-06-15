@@ -8,7 +8,7 @@ class Disease implements \JsonSerializable
 
     private string $name;
 
-    private int $type;
+    private ?int $population_type_id = null;
 
     private ?string $code_mkb10 = null;
 
@@ -53,19 +53,19 @@ class Disease implements \JsonSerializable
     /**
      * @return int
      */
-    public function getType(): int
+    public function getPopulationTypeId(): int
     {
-        return $this->type;
+        return $this->population_type_id;
     }
 
     /**
-     * @param  int  $type
+     * @param  int  $population_type_id
      *
      * @return Disease
      */
-    public function setType(int $type): Disease
+    public function setPopulationTypeId(int $population_type_id): Disease
     {
-        $this->type = $type;
+        $this->population_type_id = $population_type_id;
         return $this;
     }
 
