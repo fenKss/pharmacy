@@ -10,12 +10,23 @@ use App\Http\Response\Response;
 use App\Repository\DiseaseRepository;
 use App\Controller\AbstractController;
 
-#[Route('/')]
 class MainController extends AbstractController
 {
-    #[Route('/test/{test_id}/123', requestMethods: ['get'])]
-    public function main(?int $test_id, int $some_id = 0): Response
+    #[Route('/', requestMethods: ['get'])]
+    public function main(): Response
     {
-        return $this->render("You suck $test_id");
+        return $this->render('main.html.twig');
+    }
+
+    #[Route('/about', requestMethods: ['get'])]
+    public function about(): Response
+    {
+        return $this->render('about.html.twig');
+    }
+
+    #[Route('/contact', requestMethods: ['get'])]
+    public function contact(): Response
+    {
+        return $this->render('contact.html.twig');
     }
 }

@@ -73,7 +73,7 @@ class Router implements IRouter
             /**
              * Chunk считается параметром, если он обёрнут в {}
              */
-            $isParameterChunk = $routeUrlChunk[0] == '{' && $routeUrlChunk[strlen($routeUrlChunk) - 1] == "}";
+            $isParameterChunk = ($routeUrlChunk[0] ?? null) == '{' && $routeUrlChunk[strlen($routeUrlChunk) - 1] == "}";
             if (!$isParameterChunk && $routeUrlChunk != $urlChunk) {
                 return false;
             }
