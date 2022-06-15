@@ -1,0 +1,63 @@
+<?php
+
+
+namespace App;
+
+use App\Di\Container;
+use App\Http\IRequest;
+use App\Http\Request;
+use App\Http\Response\InternalErrorResponse;
+use App\Http\Response\NotFoundResponse;
+use App\Http\Response\Response;
+use App\Http\Routing\IRouter;
+use ReflectionException;
+
+class Kernel
+{
+    private Container $container;
+
+    public function __construct()
+    {
+        $this->container = new Container();
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function dispatch(Request $request): Response
+    {
+        $router = $this->container->get(IRouter::class);
+        /** @var IRouter $router */
+        $route = $router->getRoute($request);
+        if (!$route) {
+            return new NotFoundResponse();
+        }
+        $controller = $this->container->get($route->getController());
+        return $controller->{$route->getMethod()}(...$route->getParams());
+
+    }
+
+    public function run()
+    {
+        try {
+            /** @var Request $request */
+            $request = $this->getContainer()->get(IRequest::class);
+            $response = $this->dispatch($request);
+        } catch (\Throwable $e) {
+            error_log($e);
+            $response = new InternalErrorResponse();
+        } finally {
+            foreach ($response->getHeaders() as $header => $value) {
+                header("$header: $value");
+            }
+            http_response_code($response->getStatusCode());
+            echo $response->getBody();
+        }
+    }
+
+    public function getContainer(): Container
+    {
+        return $this->container;
+    }
+
+}

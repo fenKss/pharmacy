@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  m-database:
+    container_name: m-database
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: 12345AsDf@
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+  m-php:
+    container_name: m-php
+    links:
+      - m-database
+    volumes:
+      - ./project:/var/www/project
+    build:
+      context: ./fpm-docker
+    ports:
+      - "8080:8080"
