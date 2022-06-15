@@ -69,9 +69,9 @@ class Database
     public function execute(string $query)
     {
         $resource = $this->prepare($query);
-        $query = sqlsrv_execute($resource);
-        if (!$query) {
-            dd(sqlsrv_errors());
+        $executed = sqlsrv_execute($resource);
+        if (!$executed) {
+            dd(sqlsrv_errors() , $query);
             throw new \RuntimeException("Can't execute query");
         }
         return $resource;

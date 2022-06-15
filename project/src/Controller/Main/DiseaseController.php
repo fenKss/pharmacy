@@ -31,6 +31,7 @@ class DiseaseController extends AbstractController
             $page,
             2
         );
+
         return $this->render('shop.html.twig', [
             'diseases' => $diseases,
             "page_numbers" => $number_of_page,

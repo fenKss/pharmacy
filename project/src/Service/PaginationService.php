@@ -15,7 +15,7 @@ class PaginationService
         $count = $repository->count();
         $page_first_result = ($current_page - 1) * $results_per_page;
         $number_of_page = ceil($count / $results_per_page);
-        $objects = $repository->findAll(
+        $objects = $repository->fetchAllHash(
             $results_per_page,
             $page_first_result
         );
