@@ -2,6 +2,7 @@
 
 
 namespace App;
+use App\Http\Request;
 use \Twig\Environment;
 use App\Config\Config;
 use Twig\Error\LoaderError;
@@ -14,7 +15,7 @@ class Twig
 {
     private Environment $twig;
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, Request $request)
     {
         $twig_config = $config->get('twig')->toArray();
         $loader = new FilesystemLoader(BASE_DIR.$twig_config["templates_dir"]);
@@ -32,7 +33,7 @@ class Twig
         });
         $this->twig->addFunction($function);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
-
+        $this->twig->addGlobal('request', $request);
     }
     public function render(string $template_name, array $params = []): string
     {

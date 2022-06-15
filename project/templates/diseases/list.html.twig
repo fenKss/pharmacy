@@ -7,8 +7,9 @@
                     <label for="drug_id">Лекарство</label>
                     <select name="drug_id" id="drug_id" class="form-control">
                         <option value=""></option>
+                        {% set selected_drug = request.get('drug_id') %}
                         {% for drug in drugs %}
-                            <option value="{{ drug.id }}">{{ drug.name }}</option>
+                            <option value="{{ drug.id }}" {% if drug.id == selected_drug %}selected{% endif %}>{{ drug.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -16,8 +17,9 @@
                     <label for="population_type_id">Категория граждан</label>
                     <select name="population_type_id" id="population_type_id" class="form-control">
                         <option value=""></option>
+                        {% set selected_population_type = request.get('population_type_id') %}
                         {% for population_type in population_types %}
-                            <option value="{{ population_type.id }}">{{ population_type.name }}</option>
+                            <option value="{{ population_type.id }}" {% if population_type.id == selected_population_type %}selected{% endif %}>{{ population_type.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
