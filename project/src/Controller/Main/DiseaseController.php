@@ -28,18 +28,27 @@ class DiseaseController extends AbstractController
         Request $request
     ): Response {
         $page = $request->get('p');
+        $drug_id = intval($request->get('drug_id'));
+        $population_type_id = intval($request->get('population_type_id'));
+        $query = "SELECT d.* from disease d ";
+        if ($population_type_id){
+            $query .= "LEFT JOIN population_type pt on d.population_type_id = pt.id
+WHERE pt.id = $population_type_id ";
+        }
+        $query.= "ORDER BY d.id ";
         [
             $diseases,
             $number_of_page,
         ] = $paginationService->getObjects(
             $diseasesRepository,
-            $page
+            $page,
+            $query
         );
         $drugs            = $drugRepository->fetchAllHash();
         $populationsTypes = $populationTypeRepository->fetchAllHash();
-        $drugsRelations   = $diseasesRepository->getRelations(
+        $drugsRelations   = $diseases ? $diseasesRepository->getRelations(
             array_keys($diseases)
-        );
+        ) : [];
         $diseasesA        = [];
         /** @var Disease $disease */
         foreach ($diseases as $disease) {
@@ -51,9 +60,11 @@ class DiseaseController extends AbstractController
             ];
         }
         foreach ($drugsRelations as $drugsRelation) {
-            $drug_id                                   = $drugsRelation['drug_id'];
-            $disease_id                                = $drugsRelation['disease_id'];
-            $diseasesA[$disease_id]['drugs'][$drug_id] = $drugs[$drug_id];
+            $rDrug_id                                   = $drugsRelation['drug_id'];
+            $rDisease_id                                = $drugsRelation['disease_id'];
+            if (!$drug_id || $rDrug_id === $drug_id) {
+                $diseasesA[$rDisease_id]['drugs'][$rDrug_id] = $drugs[$rDrug_id];
+            }
         }
         return $this->render('diseases/list.html.twig', [
             'diseases' => $diseasesA,

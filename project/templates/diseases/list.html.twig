@@ -2,6 +2,29 @@
 {% block body %}
     <div class="container">
         <div>
+            <form action="">
+                <div class="form-group">
+                    <label for="drug_id">Лекарство</label>
+                    <select name="drug_id" id="drug_id" class="form-control">
+                        <option value=""></option>
+                        {% for drug in drugs %}
+                            <option value="{{ drug.id }}">{{ drug.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="population_type_id">Категория граждан</label>
+                    <select name="population_type_id" id="population_type_id" class="form-control">
+                        <option value=""></option>
+                        {% for population_type in population_types %}
+                            <option value="{{ population_type.id }}">{{ population_type.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Найти</button>
+            </form>
+        </div>
+        <div>
             Перечень лекарственных средств и медицинских изделий для бесплатного и (или) льготного амбулаторного
             обеспечения отдельных категорий граждан Республики Казахстан с определенными заболеваниями (состояниями)
         </div>

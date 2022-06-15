@@ -49,6 +49,16 @@ class Database
         return $result;
     }
 
+    public function fetchObjectsArray(string $query, string $objectClass): array
+    {
+        $objects = $this->fetchObjects($query, $objectClass);
+        $result = [];
+        foreach ($objects as $object){
+            $result[$object->getId()] = $object;
+        }
+        return $result;
+    }
+
     /**
      * @param  string  $query
      *

@@ -22,14 +22,9 @@ class AbstractRepository
         if (!is_null($limit) && !is_null($offset)){
             $query .= sprintf("OFFSET %d ROWS FETCH NEXT %d ROWS ONLY", $offset, $limit);
         }
-        $objects =  $this->database->fetchObjects(
+        return $this->database->fetchObjectsArray(
             $query , $this::ENTITY_CLASS
         );
-        $result = [];
-        foreach ($objects as $object){
-            $result[$object->getId()] = $object;
-        }
-        return $result;
     }
 
     public function count(): int
