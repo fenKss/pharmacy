@@ -79,5 +79,12 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="container">
+
+            {% for i in 1..page_numbers %}
+                {% set params=request.getAll|merge({'p': i})%}
+                <a class="btn btn-dark {% if request.get('p')|default(1) == i %}btn-outline-dark{% endif %}" href="{{ request.getUrl() }}?{{ params|url_encode }}">{{ i }}</a>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
