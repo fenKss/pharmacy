@@ -32,6 +32,12 @@ class Database
         return $result;
     }
 
+    public function fetch(string $query): array
+    {
+        $resource = $this->execute($query);
+        return sqlsrv_fetch_array($resource, SQLSRV_FETCH_ASSOC);
+    }
+
     public function fetchObjects(string $query, string $objectClass): array
     {
         $resource = $this->execute($query);
@@ -65,6 +71,7 @@ class Database
         $resource = $this->prepare($query);
         $query = sqlsrv_execute($resource);
         if (!$query) {
+            dd(sqlsrv_errors());
             throw new \RuntimeException("Can't execute query");
         }
         return $resource;

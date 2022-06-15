@@ -9,6 +9,7 @@ use App\Database\Database;
 use App\Http\Routing\Route;
 use App\Database\Connection;
 use App\Http\Response\Response;
+use App\Repository\DiseaseRepository;
 use App\Controller\AbstractController;
 
 #[Route('/')]
@@ -20,17 +21,17 @@ class MainController extends AbstractController
         return $this->render("You suck $test_id");
     }
 
-    #[Route('/', requestMethods: ['get'])]
+    #[Route('/diseases', requestMethods: ['get'])]
     public function index(
         Config $config,
-        Database $database,
+        DiseaseRepository $diseaseRepository,
         ?int $test_id,
         int $some_id = 0
     ): Response {
         $a = $config->get('test');
-        $diseases = $database->fetchObjects("SELECT * FROM disease", Disease::class);
-
-        return $this->render('base.html.twig', [
+        $diseases = $diseaseRepository->count(1,1);
+        dd($diseases);
+        return $this->render('shop.html.twig', [
             'diseases' => $diseases
         ]);
     }

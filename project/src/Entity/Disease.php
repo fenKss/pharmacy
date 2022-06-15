@@ -10,6 +10,19 @@ class Disease implements \JsonSerializable
 
     private int $type;
 
+    private ?string $code_mkb10 = null;
+
+    public function getCodeMkb10(): ?string
+    {
+        return $this->code_mkb10;
+    }
+
+    public function setCodeMkb10(string $code_mkb10): Disease
+    {
+        $this->code_mkb10 = $code_mkb10;
+        return $this;
+    }
+
     /**
      * @return int
      */
